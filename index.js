@@ -9,8 +9,8 @@ const { findCachedOrRequest } = require("./src/finder")
  *  
  */
 function find(type, query, timeout) {
-    if(!timeout) timeout = new Date().addHours(1)
+    if (!timeout) timeout = new Date().addHours(1)
     return findCachedOrRequest(query, type, timeout)
 }
 
-module.exports(find)
+module.exports = { find }

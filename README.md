@@ -1,5 +1,5 @@
 # Node Data Finder
-Finds data from an api. Reduces boilerplate and call to external apis through caching. 
+Finds data from api. Reduces calls through caching. 
 
 ## Usage
 ```

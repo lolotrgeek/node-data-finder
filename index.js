@@ -1,4 +1,4 @@
-require('./lib')
+require('./src/lib')
 const { findCachedOrRequest } = require("./src/finder")
 
 /**

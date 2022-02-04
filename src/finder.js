@@ -1,7 +1,7 @@
 const Keyv = require('keyv')
-const { KeyvFile } = require('keyv-file')
+const KeyvSQLite = require('@keyvhq/sqlite')
 const { Requester } = require('./requester')
-
+const config = require('../config.json')
 /**
  * Looks for cached data based on type, otherwise executes a request query
  * @param {string} query
@@ -16,7 +16,7 @@ function findCachedOrRequest(query, type, timeout) {
     if (typeof type !== 'string') {
         return null
     }
-    const keyv = new Keyv({ store: new KeyvFile({ filename: `./data/${type}.json` }) })
+    const keyv = new Keyv({ store: new KeyvSQLite(config.db_path)})
     return new Promise(async resolve => {
         try {
             let data = await keyv.get(`${type}`)

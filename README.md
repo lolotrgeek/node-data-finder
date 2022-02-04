@@ -1,6 +1,16 @@
 # Node Data Finder
 Finds data from api. Reduces calls through caching. 
 
+## Install
+First [create sqlite database](https://www.sqlite.org/quickstart.html)
+
+Run Install
+
+```
+npm i
+```
+
+
 ## Usage
 ```
 const {find} = require('node-data-finder')

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/lolotrgeek/node-data-finder#readme",
   "dependencies": {
+    "@keyvhq/sqlite": "^1.6.3",
     "keyv": "^4.0.5",
     "keyv-file": "^0.2.0"
   },

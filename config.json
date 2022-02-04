@@ -1,0 +1,3 @@
+{
+    "db_path": "sqlite://path/to/database.sqlite"
+}

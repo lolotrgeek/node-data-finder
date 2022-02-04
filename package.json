@@ -19,5 +19,8 @@
   "dependencies": {
     "keyv": "^4.0.5",
     "keyv-file": "^0.2.0"
+  },
+  "devDependencies": {
+    "express": "^4.17.2"
   }
 }

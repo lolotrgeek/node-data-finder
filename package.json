@@ -1,6 +1,6 @@
 {
   "name": "node-data-finder",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Find data.",
   "main": "index.js",
   "scripts": {

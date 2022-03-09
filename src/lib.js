@@ -12,7 +12,7 @@ Date.prototype.addHours = function (hours) { this.setTime(this.getTime() + (hour
   * @param {Date} date2 
   * @returns 
   */
-const MillisecondsBetweenDates = (date1, date2) => Math.abs(date1 - date2)
+MillisecondsBetweenDates = (date1, date2) => Math.abs(date1 - date2)
 
 
 /**
@@ -20,4 +20,4 @@ const MillisecondsBetweenDates = (date1, date2) => Math.abs(date1 - date2)
  * @param {*} obj 
  * @returns 
  */
-const isDate = obj => Object.prototype.toString.call(obj) === '[object Date]'
+isDate = obj => Object.prototype.toString.call(obj) === '[object Date]'

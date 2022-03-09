@@ -6,7 +6,7 @@ const { Requester } = require('./requester')
  * Looks for cached data based on type, otherwise executes a request query
  * @param {string} query
  * @param {string} type 
- * @param {Date} timeout
+ * @param {number} timeout - milliseconds
  * @returns 
  */
 function findCachedOrRequest(query, type, timeout) {

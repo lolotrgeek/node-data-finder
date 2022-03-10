@@ -10,4 +10,14 @@ find("example_type", "https://example-address.to/query/data").then(found => {
 })
 
 ```
+## API
 
+```
+find(type::string, query::string, timeout?::Date|number)
+```
+
+`type` - a tag used to separate data when it is cached
+
+`query` - a url to make the request to
+
+`timeout` - a date or count in milliseconds when the cache expires

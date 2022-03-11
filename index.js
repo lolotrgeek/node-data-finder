@@ -8,11 +8,12 @@ const { findCachedOrRequest } = require("./src/finder")
  * @param {Date | number} timeout (optional) how long to cache data, defaults to 1 hour
  *  
  */
-function find(type, query, timeout) {
+function find(type, query, timeout, store) {
     let now = new Date()
     if (!timeout) timeout = MillisecondsBetweenDates(now, now.addHours(1))
     if(isDate(timeout)) timeout = MillisecondsBetweenDates(now, timeout)
-    return findCachedOrRequest(query, type, timeout)
+    if(store) return findCachedOrRequest(query, type, timeout, store)
+    else return findCachedOrRequest(query, type, timeout)
 }
 
 module.exports = { find }

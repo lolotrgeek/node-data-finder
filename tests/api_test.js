@@ -2,7 +2,7 @@ const https = require('https')
 const url = require('url')
 const fs = require('fs')
 const express = require('express')
-const { find } = require('.')
+const { find } = require('../index')
 const certificate = fs.readFileSync('localhost.pem')
 const key = fs.readFileSync('localhost-key.pem')
 // guide to setup local testing

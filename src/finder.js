@@ -7,20 +7,21 @@ const { Requester } = require('./requester')
  * @param {string} query
  * @param {string} type 
  * @param {number} timeout - milliseconds
+ * @param {object} store - Storage adapter, defaults to KeyvFile
  * @returns 
  */
-function findCachedOrRequest(query, type, timeout) {
-    if (typeof query !== 'string' || query === 'true' ) {
+function findCachedOrRequest(query, type, timeout, store= new KeyvFile({ filename: `./data/${type}.json` })) {
+    if (typeof query !== 'string' || query === 'true') {
         return null
     }
     if (typeof type !== 'string') {
         return null
     }
-    const keyv = new Keyv({ store: new KeyvFile({ filename: `./data/${type}.json` }) })
+    const keyv = new Keyv({ store })
     return new Promise(async resolve => {
         try {
             let data = await keyv.get(`${type}`)
-            if(!data) throw "no data"
+            if (!data) throw "no data"
             console.log(`Found cached data for ${type}`, data)
             resolve(data)
         } catch (error) {

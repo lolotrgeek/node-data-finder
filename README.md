@@ -21,3 +21,4 @@ find(type::string, query::string, timeout?::Date|number)
 `query` - a url to make the request to
 
 `timeout` - a date or count in milliseconds when the cache expires
+

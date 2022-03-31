@@ -2,7 +2,7 @@ const https = require('https')
 const url = require('url')
 const fs = require('fs')
 const express = require('express')
-const { find } = require('../index')
+const { find_test: find } = require('./find_test')
 const certificate = fs.readFileSync('localhost.pem')
 const key = fs.readFileSync('localhost-key.pem')
 // guide to setup local testing
@@ -33,6 +33,6 @@ function basicTest() {
     })
 }
 
-basicTest().then(result => {console.log('Passed!'); process.exit()}).catch(err => {console.log('Failed!'); process.exit()})
+// basicTest().then(result => {console.log('Passed!')}).catch(err => {console.log('Failed!')})
 module.exports = { basicTest }
 

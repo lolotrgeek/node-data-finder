@@ -1,5 +1,5 @@
 require('../src/lib')
-const { find } = require('../index')
+const { find_test: find } = require('./find_test')
 const fs = require('fs').promises
 const { readFileSync } = require('fs')
 
@@ -42,23 +42,24 @@ function errorHandler(err) {
     console.error(err)
 }
 
-async function testFindTimeOut(timeout) {
-    try {
-        await removeData()
-        console.log('deleted Data')
-        start = Date.now()
-        await find("test", "https://url", timeout)
-        end = Date.now()
-        let max = 10
-        let p = Promise.reject()
-        for (var i = 0; i < max; i++) {
-            p = p.catch(findData).catch(rejectDelay)
+function testFindTimeOut(timeout=test_timeout) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await removeData()
+            console.log('deleted Data')
+            start = Date.now()
+            await find("test", "https://url", timeout)
+            end = Date.now()
+            let max = 10
+            let p = Promise.reject()
+            for (var i = 0; i < max; i++) {
+                p = p.catch(findData).catch(rejectDelay)
+            }
+            p = p.then(processResult).catch(errorHandler).finally(resolve(p))
+        } catch (error) {
+            if (error) console.error(error)
+            reject(error)
         }
-        p = p.then(processResult).catch(errorHandler)
-    } catch (error) {
-        if (error) console.error(error)
-    }
+    })
 }
-
-
-testFindTimeOut(test_timeout)
+module.exports = { testFindTimeOut }

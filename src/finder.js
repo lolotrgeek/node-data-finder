@@ -1,6 +1,7 @@
 const Keyv = require('keyv')
 const { KeyvFile } = require('keyv-file')
 const { Requester } = require('./requester')
+const path = require('path')
 
 /**
  * Looks for cached data based on type, otherwise executes a request query
@@ -10,7 +11,7 @@ const { Requester } = require('./requester')
  * @param {object} store - Storage adapter, defaults to KeyvFile
  * @returns 
  */
-function findCachedOrRequest(query, type, timeout, store= new KeyvFile({ filename: `./data/${type}.json` })) {
+function findCachedOrRequest(query, type, timeout, store= new KeyvFile({ filename: path.join(__dirname, '../../', '/data/${type}.json')})) {
     if (typeof query !== 'string' || query === 'true') {
         return null
     }

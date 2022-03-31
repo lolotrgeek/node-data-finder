@@ -28,7 +28,8 @@ function findCachedOrRequest(query, type, timeout, store= new KeyvFile({ filenam
         } catch (error) {
             Requester(query, async data => {
                 console.log(`Requesting data for ${type}`)
-                await keyv.set(`${type}`, data, timeout)
+                if(!timeout) await keyv.set(`${type}`, data)
+                else await keyv.set(`${type}`, data, timeout)
                 resolve(data)
             })
         }

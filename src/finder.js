@@ -11,7 +11,7 @@ const path = require('path')
  * @param {object} store - Storage adapter, defaults to KeyvFile
  * @returns 
  */
-function findCachedOrRequest(query, type, timeout, store= new KeyvFile({ filename: path.join(__dirname, '../../', '/data/${type}.json')})) {
+function findCachedOrRequest(query, type, timeout, store= new KeyvFile({ filename: path.join(__dirname, '../../../', `/data/${type}.json`)})) {
     if (typeof query !== 'string' || query === 'true') {
         return null
     }

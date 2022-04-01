@@ -6,10 +6,10 @@ const { testFindTimeOut } = require("./tests/timeout_test")
 
 async function run() {
     try {
-        await basicTest().then(result => {console.log('BasicTest: Passed!')}).catch(err => {console.log('BasicTest: Failed!')})
+        basicTest().then(result => {console.log('BasicTest: Passed!')}).catch(err => {console.log('BasicTest: Failed!')})
         await testFindDateTimeOut()
         await testFindTimeOut()
-        await clearTest()        
+        clearTest().then(result => {console.log('ClearTest: Passed!')}).catch(err => {console.log('ClearTest: Failed!')})        
     } catch (error) {
         console.log(error)
     } finally {

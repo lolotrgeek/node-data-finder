@@ -21,3 +21,6 @@ find(type::string, query::string, timeout?::Date|number)
 `query` - a url to make the request to. Passing `"clear"` as the query will clear this type of cache
 
 `timeout` - a date or count in milliseconds when the cache expires
+
+## Todo
+- update tests and test runner

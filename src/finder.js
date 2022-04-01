@@ -15,37 +15,35 @@ const { join } = require('path')
 function findCachedOrRequest(query, type, timeout, store) {
     return new Promise(async (resolve, reject) => {
         try {
-            if(validate(query, type) === false) reject("Invalid")
+            if (Validate(query, type) === false) reject("Invalid")
             if (query === 'clear') {
-                await clear(type)
+                await Clear(store)
                 resolve("cleared")
             }
-            const keyv = Store(type, store)
-            let data = await keyv.get(`${type}`)
-            if(data) {
-                console.log(`Found cached data for ${type}`, data)
-                resolve(data)
-            }
             else {
-                data = await Request(type, timeout)
-                resolve(data)
+                const keyv = Store(type, store)
+                let data = await keyv.get(`${type}`)
+                if (data) {
+                    console.log(`Found cached data for ${type}`, data)
+                    resolve(data)
+                }
+                else {
+                    Requester(query, async data => {
+                        try {
+                            console.log(`Requesting data for ${type}`)
+                            if (!timeout) await keyv.set(type, data)
+                            else await keyv.set(type, data, timeout)
+                            resolve(data)
+                        } catch (error) {
+                            reject(error)
+                        }
+                    })
+                }
             }
-        } catch (error) {reject(error)}
+        } catch (error) { reject(error) }
     })
 }
 
-function Request(type, timeout){
-    return Requester(query, async data => {
-        try {
-            console.log(`Requesting data for ${type}`)
-            if (!timeout) await keyv.set(type, data)
-            else await keyv.set(type, data, timeout)
-            resolve(data)
-        } catch (error) {
-            reject(error)
-        }
-    })    
-}
 
 function Store(type, store) {
     if (!store) store = new KeyvFile({ filename: join(__dirname, '../../../', `/data/${type}.json`) })
@@ -53,14 +51,19 @@ function Store(type, store) {
     return keyv
 }
 
-function validate(query, type) {
+function Validate(query, type) {
     if (typeof query !== 'string' || query === 'true') return false
     if (typeof type !== 'string') return false
     return true
 }
 
-function clear(type) {
-    return unlink(join(__dirname, '../../../', `/data/${type}.json`))
+async function Clear(store) {
+    try {
+        await unlink(store._opts.filename)
+        return Promise.resolve(true)
+    } catch (error) {
+        return Promise.resolve(true)
+    }
 }
 
 module.exports = { findCachedOrRequest }

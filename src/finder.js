@@ -16,12 +16,15 @@ function findCachedOrRequest(query, type, timeout, store) {
     return new Promise(async (resolve, reject) => {
         try {
             if (Validate(query, type) === false) reject("Invalid")
+
+            if (!store) store = new KeyvFile({ filename: join(__dirname, '../../../', `/data/${type}.json`) })
+            const keyv = new Keyv({ store })
+
             if (query === 'clear') {
                 await Clear(store)
                 resolve("cleared")
             }
             else {
-                const keyv = Store(type, store)
                 let data = await keyv.get(`${type}`)
                 if (data) {
                     console.log(`Found cached data for ${type}`, data)
@@ -45,12 +48,6 @@ function findCachedOrRequest(query, type, timeout, store) {
 }
 
 
-function Store(type, store) {
-    if (!store) store = new KeyvFile({ filename: join(__dirname, '../../../', `/data/${type}.json`) })
-    const keyv = new Keyv({ store })
-    return keyv
-}
-
 function Validate(query, type) {
     if (typeof query !== 'string' || query === 'true') return false
     if (typeof type !== 'string') return false
@@ -59,6 +56,7 @@ function Validate(query, type) {
 
 async function Clear(store) {
     try {
+        console.log('removing ', store._opts.filename)
         await unlink(store._opts.filename)
         return Promise.resolve(true)
     } catch (error) {

@@ -24,13 +24,14 @@ https.createServer({
     console.log(`App listening at ${port}`)
 })
 
-function basicTest() {
-    return new Promise((resolve, reject) => {
-        find("test_type", "https://localhost:3333/").then(found => {
-            if (found && found.hello === 'World!') resolve(true)
-            else reject(false)
-        }).catch(err => reject(false))
-    })
+async function basicTest() {
+    try {
+        let found = await find("test_type", "https://localhost:3333/")
+        if (found && found.hello === 'World!') return Promise.resolve(true)
+        else return Promise.resolve(false)
+    } catch (error) {
+        return Promise.reject(false)
+    }
 }
 
 // basicTest().then(result => {console.log('Passed!')}).catch(err => {console.log('Failed!')})

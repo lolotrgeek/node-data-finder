@@ -1,7 +1,6 @@
 const { find } = require('../index')
 const { KeyvFile } = require('keyv-file')
-const store = new KeyvFile({ filename: __dirname + '/data/test.json' })
-
+const { join } = require('path')
 
 /**
  * Wrap the Find function in order to run tests and store data locally
@@ -10,6 +9,7 @@ const store = new KeyvFile({ filename: __dirname + '/data/test.json' })
  * @param {*} timeout 
  */
 function find_test(type, query, timeout) {
+    const store = new KeyvFile({ filename: join(__dirname,`/data/${type}.json`) })
     find(type, query, timeout, store)
 }
 module.exports = {find_test}

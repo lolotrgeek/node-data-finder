@@ -3,7 +3,8 @@ const { find_test: find } = require('./find_test')
 const fs = require('fs').promises
 const { readFileSync } = require('fs')
 
-const path = __dirname + '/data/test.json'
+const type = "timeout"
+const path = __dirname + `/data/${type}.json`
 const test_timeout = 3600000 // WARNING: test might fail because the found value from the test might have variance from execution time. Re-run test or check result for significant variance.
 let start
 let end
@@ -45,10 +46,11 @@ function errorHandler(err) {
 function testFindTimeOut(timeout=test_timeout) {
     return new Promise(async (resolve, reject) => {
         try {
-            await removeData()
+            // await removeData()
+            await find(type, 'clear')
             console.log('deleted Data')
             start = Date.now()
-            await find("test", "https://url", timeout)
+            await find(type, "https://url", timeout)
             end = Date.now()
             let max = 10
             let p = Promise.reject()
@@ -62,4 +64,5 @@ function testFindTimeOut(timeout=test_timeout) {
         }
     })
 }
+
 module.exports = { testFindTimeOut }

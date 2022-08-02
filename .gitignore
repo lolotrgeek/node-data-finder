@@ -1,3 +1,4 @@
 /node_modules
 *.pem
 data/test_type.json
+tests/data

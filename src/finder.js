@@ -10,9 +10,10 @@ const { join } = require('path')
  * @param {string} type 
  * @param {number} timeout - milliseconds
  * @param {object} store - Storage adapter, defaults to KeyvFile
+ * @param {bool} debug
  * @returns 
  */
-function findCachedOrRequest(query, type, timeout, store) {
+function findCachedOrRequest(query, type, timeout, store, debug) {
     return new Promise(async (resolve, reject) => {
         try {
             if (Validate(query, type) === false) reject("Invalid")
@@ -27,13 +28,13 @@ function findCachedOrRequest(query, type, timeout, store) {
             else {
                 let data = await keyv.get(`${type}`)
                 if (data) {
-                    console.log(`Found cached data for ${type}`, data)
+                    if (debug) console.log(`Found cached data for ${type}`, data)
                     resolve(data)
                 }
                 else {
                     Requester(query, async data => {
                         try {
-                            console.log(`Requesting data for ${type}`)
+                            if (debug) console.log(`Requesting data for ${type}`)
                             if (!timeout) await keyv.set(type, data)
                             else await keyv.set(type, data, timeout)
                             resolve(data)
@@ -56,7 +57,7 @@ function Validate(query, type) {
 
 async function Clear(store) {
     try {
-        console.log('removing ', store._opts.filename)
+        if (debug) console.log('removing ', store._opts.filename)
         await unlink(store._opts.filename)
         return Promise.resolve(true)
     } catch (error) {

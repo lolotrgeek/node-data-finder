@@ -24,3 +24,4 @@ find(type::string, query::string, timeout?::Date|number)
 
 ## Todo
 - update tests and test runner
+- retrieve data timeout api

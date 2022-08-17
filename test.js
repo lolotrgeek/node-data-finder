@@ -7,8 +7,9 @@ const { testFindTimeOut } = require("./tests/timeout_test")
 async function run() {
     try {
         basicTest().then(result => {console.log('BasicTest: Passed!')}).catch(err => {console.log('BasicTest: Failed!')})
-        await testFindDateTimeOut()
-        await testFindTimeOut()
+        // deprecated - run tests/expires_test.js
+        // await testFindDateTimeOut()
+        // await testFindTimeOut()
         clearTest().then(result => {console.log('ClearTest: Passed!')}).catch(err => {console.log('ClearTest: Failed!')})        
     } catch (error) {
         console.log(error)

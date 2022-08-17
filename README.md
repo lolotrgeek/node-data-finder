@@ -22,6 +22,9 @@ find(type::string, query::string, timeout?::Date|number)
 
 `timeout` - a date or count in milliseconds when the cache expires
 
+`debug` - set to `info` to log finder activity or set tp `expires` to return expiration of cache with data
+
 ## Todo
 - update tests and test runner
 - retrieve data timeout api
+- options for advanced requests

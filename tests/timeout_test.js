@@ -9,28 +9,15 @@ const test_timeout = 3600000 // WARNING: test might fail because the found value
 let start
 let end
 
-async function removeData() {
-    try {
-        await fs.unlink(path)
-        return Promise.resolve(true)
-    } catch (error) {
-        return Promise.resolve(true)
-    }
-}
 
-function findData() {
-    let data = readFileSync(path)
-    if (data) return Promise.resolve(data)
-    else throw data
-}
 function rejectDelay(reason) {
     return new Promise(function (resolve, reject) {
         setTimeout(reject.bind(null, reason), 1000)
     })
 }
 function processResult(data) {
-    console.log('Found Data')
     let stored = JSON.parse(data)
+    console.log('Found Data', stored)
     let expiration = stored.cache[0][1].expire
     let execution_time = end - start
     let found_timeout = (expiration - start) - execution_time
@@ -42,6 +29,7 @@ function processResult(data) {
 function errorHandler(err) {
     console.error(err)
 }
+//TODO: use https://github.com/jaredwray/keyv/tree/main/packages/keyv#optionsraw instead of reading file
 
 function testFindTimeOut(timeout=test_timeout) {
     return new Promise(async (resolve, reject) => {
@@ -50,7 +38,7 @@ function testFindTimeOut(timeout=test_timeout) {
             await find(type, 'clear')
             console.log('deleted Data')
             start = Date.now()
-            await find(type, "https://url", timeout)
+            await find(type, "https://catfact.ninja/fact/", test_date, "expires")
             end = Date.now()
             let max = 10
             let p = Promise.reject()

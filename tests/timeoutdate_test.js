@@ -1,7 +1,6 @@
 require('../src/lib')
 const { find_test: find } = require('./find_test')
 const fs = require('fs').promises
-const { readFileSync } = require('fs')
 
 const type = "timeoutdate"
 const path = __dirname + `/data/${type}.json`
@@ -10,28 +9,16 @@ let valid_timeout = 7200000 // WARNING: test might fail because the found value 
 let start
 let end
 
-async function removeData() {
-    try {
-        await fs.unlink(path)
-        return Promise.resolve(true)
-    } catch (error) {
-        return Promise.resolve(true)
-    }
-}
+//TODO: use https://github.com/jaredwray/keyv/tree/main/packages/keyv#optionsraw instead of reading file
 
-function findData() {
-    let data = readFileSync(path)
-    if (data) return Promise.resolve(data)
-    else throw data
-}
 function rejectDelay(reason) {
     return new Promise(function (resolve, reject) {
         setTimeout(reject.bind(null, reason), 1000)
     })
 }
 function processResult(data) {
-    console.log('Found Data')
     let stored = JSON.parse(data)
+    console.log('Found Data', stored)
     let expiration = stored.cache[0][1].expire
     let execution_time = end - start
     let found_timeout = (expiration - start) - execution_time

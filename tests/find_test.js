@@ -7,9 +7,10 @@ const { join } = require('path')
  * @param {*} type 
  * @param {*} query 
  * @param {*} timeout 
+ * @param {string} debug 
  */
-function find_test(type, query, timeout) {
-    const store = new KeyvFile({ filename: join(__dirname,`/data/${type}.json`) })
-    return find(type, query, timeout, store, true)
+function find_test(type, query, timeout, debug = true) {
+    const store = new KeyvFile({ filename: join(__dirname, `/data/${type}.json`) })
+    return find(type, query, timeout, store, debug)
 }
-module.exports = {find_test}
+module.exports = { find_test }

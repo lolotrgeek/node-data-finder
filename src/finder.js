@@ -10,7 +10,7 @@ const { join } = require('path')
  * @param {string} type 
  * @param {number} timeout - milliseconds
  * @param {object} store - Storage adapter, defaults to KeyvFile
- * @param {bool} debug
+ * @param {string} debug - `info`, `expires`
  * @returns 
  */
 function findCachedOrRequest(query, type, timeout, store, debug) {
@@ -26,18 +26,21 @@ function findCachedOrRequest(query, type, timeout, store, debug) {
                 resolve("cleared")
             }
             else {
-                let data = await keyv.get(`${type}`)
+                let options = {}
+                if (debug === 'expires') options.raw = true
+                let data = await keyv.get(`${type}`, options)
                 if (data) {
-                    if (debug) console.log(`Found cached data for ${type}`, data)
+                    if (debug === 'info') console.log(`Found cached data for ${type}`, data)
                     resolve(data)
                 }
                 else {
                     Requester(query, async data => {
                         try {
-                            if (debug) console.log(`Requesting data for ${type}`)
+                            if (debug === 'info') console.log(`Requesting data for ${type}`)
                             if (!timeout) await keyv.set(type, data)
                             else await keyv.set(type, data, timeout)
-                            resolve(data)
+                            if (debug === 'expires') resolve(await keyv.get(`${type}`, { raw: true }))
+                            else resolve(data)
                         } catch (error) {
                             reject(error)
                         }
@@ -57,7 +60,7 @@ function Validate(query, type) {
 
 async function Clear(store) {
     try {
-        if (debug) console.log('removing ', store._opts.filename)
+        if (debug === 'info') console.log('removing ', store._opts.filename)
         await unlink(store._opts.filename)
         return Promise.resolve(true)
     } catch (error) {

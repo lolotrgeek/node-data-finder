@@ -1,21 +1,21 @@
 const { basicTest } = require("./tests/api_test")
 const { clearTest } = require("./tests/clear_test")
-const { testFindDateTimeOut } = require("./tests/timeoutdate_test")
-const { testFindTimeOut } = require("./tests/timeout_test")
+const { expires_test } = require("./tests/expires_test")
 
 
 async function run() {
     try {
-        basicTest().then(result => {console.log('BasicTest: Passed!')}).catch(err => {console.log('BasicTest: Failed!')})
-        // deprecated - run tests/expires_test.js
-        // await testFindDateTimeOut()
-        // await testFindTimeOut()
-        clearTest().then(result => {console.log('ClearTest: Passed!')}).catch(err => {console.log('ClearTest: Failed!')})        
+        return Promise.allSettled([
+            console.log('Basic Test - Pass?', await basicTest()),
+            console.log("Expires Test: Pass?", await expires_test()),
+            console.log('Clear Test: Pass?', await clearTest())  ,
+        ])
+
     } catch (error) {
         console.log(error)
     } finally {
-        process.exit()
+
     }
 }
 
-run()
+run().then(process.exit)

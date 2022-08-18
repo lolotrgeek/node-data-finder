@@ -10,7 +10,7 @@ const { join } = require('path')
  * @param {string} type 
  * @param {number} timeout - milliseconds
  * @param {object} store - Storage adapter, defaults to KeyvFile
- * @param {string} debug - `info`, `expires`
+ * @param {string} debug - `info`, `expires`, `status`
  * @returns 
  */
 function findCachedOrRequest(query, type, timeout, store, debug) {
@@ -34,9 +34,12 @@ function findCachedOrRequest(query, type, timeout, store, debug) {
                     resolve(data)
                 }
                 else {
-                    Requester(query, async data => {
+                    Requester(query, async (data, status) => {
                         try {
                             if (debug === 'info') console.log(`Requesting data for ${type}`)
+                            if (debug === 'status') console.log(`statusCode: ${status}`)
+                            // TODO: how to handle errors??
+                            // if (status !== 200) await keyv.set("errors", data)
                             if (!timeout) await keyv.set(type, data)
                             else await keyv.set(type, data, timeout)
                             if (debug === 'expires') resolve(await keyv.get(`${type}`, { raw: true }))

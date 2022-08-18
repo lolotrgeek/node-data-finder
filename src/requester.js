@@ -7,14 +7,13 @@ const https = require('https')
  */
 function Requester(url, callback) {
     const req = https.request(url, res => {
-        console.log(`statusCode: ${res.statusCode}`)
         let raw = []
         res.on('data', stream => {
             raw.push(stream)
         })
         res.on('close', () => {
             let data = JSON.parse(raw.map(element => element.toString('utf8')).join(''))
-            callback(data)
+            callback(data, res.statusCode)
         })
     })
     req.on('error', error => callback(error))
